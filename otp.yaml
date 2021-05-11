@@ -90,13 +90,13 @@ paths:
           required: true
         - in: formData
           name: graphometric
-          type: string
+          type: boolean
           enum: [true, false]
           description: "Graphic signature activation / deactivation"
           required: true
         - in: formData
           name: enablehardware
-          type: string
+          type: boolean
           enum: [true, false]
           description: "Combined with `graphometric`, signature through Wacom tablet device is enabled when this parameter is set to true"
           required: true
@@ -108,7 +108,7 @@ paths:
                         - **SMS** An SMS with the signature link is sent"
         - in: formData
           name: enableotp
-          type: string
+          type: boolean
           enum: [true, false]
           description: "OTP verification activation / deactivation"
           required: true
@@ -318,7 +318,6 @@ paths:
                   endobj\n
                   (...)\n
                 "
-      x-codeSamples:
 
   #############
   /api/v1/retrieve/{id}/evidences:
@@ -355,7 +354,7 @@ paths:
                   endobj\n
                   (...)\n
                 "
-      x-codeSamples:
+
 
   #############
   /api/v1/retrieve/additionals/{id}:
@@ -392,8 +391,6 @@ paths:
                   endobj\n
                   (...)\n
                 "
-      x-codeSamples:
-
   #############
   /api/v1/retrieve/additional/{id}:
     get: 
@@ -429,43 +426,3 @@ paths:
                   endobj\n
                   (...)\n
                 "
-      x-codeSamples:
-
-###### definitions ######
-###############################################################################
-
-
-definitions:
-    SignObject:
-        type: "object"
-        required:
-          - name
-          - mobile
-        properties:
-            name:
-                type: "string"
-                description: "Signer's name"
-            mobile:
-                type: "string"
-                description: "Signer's mobile phone"
-            documents:
-                type: "object"
-                description: "Signer's associated documentation"
-                properties:
-                  tag:
-                    type: "string"
-                    description: "Associated document descriptive name"
-                  format:
-                    type: "string"
-                    description: "Associated document format"
-            position:
-                type: "string"
-                description: "The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2).<br>
-                              1px = 0.75pt"
-            horizontal_position:
-                type: "string"
-                enum: [true, false]
-                description: "The signature position orientation (True: horizontal orientation - False: vertical orientation)"
-            page:
-                type: "string"
-                description: The document page where the signature will be placed. The first page starts at 0.
