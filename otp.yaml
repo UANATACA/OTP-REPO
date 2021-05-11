@@ -68,15 +68,17 @@ paths:
         - in: formData
           name: file
           type: file
+          required: true
           description: "Local path of the file to be signed.\n
                         - **File type in base64 is not accepted**\n"
         - in: formData
           name: data
           type: string
+          required: true
           description: "
             JSON string object containing signature parameters. One instance for each signer (See example):\n
-            * `name` - Signer's name\n
-            * `mobile` - Signer's mobile phone\n
+            * `name` - Signer's name (required)\n
+            * `mobile` - Signer's mobile phone (required)\n
             * `documents` - Signer's associated documentation. Contains:\n
               - `tag` -  Associated document descriptive name\n
               - `format` - Associated document format\n
@@ -87,50 +89,46 @@ paths:
           name: callback
           type: string
           description: "Url where to send signing process log. See description and sample code in <a href='#section/Configuration/Webhooks'>Webhooks configuration</a>"
-          required: true
         - in: formData
           name: graphometric
           type: boolean
           enum: [true, false]
           description: "Graphic signature activation / deactivation"
-          required: true
         - in: formData
           name: enablehardware
           type: boolean
           enum: [true, false]
           description: "Combined with `graphometric`, signature through Wacom tablet device is enabled when this parameter is set to true"
-          required: true
         - in: formData
           name: returnmethod
           type: string
           enum: [API, SMS]
-          description: "- **API** Returns the document signature link via API  \n
+          description: "- **API** Returns the document signature link via API\n
                         - **SMS** An SMS with the signature link is sent"
         - in: formData
           name: enableotp
           type: boolean
           enum: [true, false]
           description: "OTP verification activation / deactivation"
-          required: true
         - in: formData
           name: signaturetext
           type: string
           description: "Text line below the signature area"
-          required: true
         - in: formData
           name: sendersms
           type: string
           default: "Gesco"
           description: "Name of the SMS sender that will appear as header"
-          required: true
         - in: formData
           name: billing_username
           type: string
           description: "Billing account username"
+          required: true
         - in: formData
           name: billing_password
           type: string
-          description: "Billing account password"          
+          description: "Billing account password"
+          required: true          
       responses:
         201:
           description: The sign request was executed
