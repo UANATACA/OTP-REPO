@@ -1,5 +1,5 @@
 apiDefinitions:
-  main: oneshot.yaml
+  main: otp.yaml
 referenceDocs:
   hideDownloadButton: true
   showConsole: false
