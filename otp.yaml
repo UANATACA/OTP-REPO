@@ -51,7 +51,7 @@ paths:
                     "status": "200 OK",
                     "details": "Hello"
                 }
-      x-codeSamples:
+
 
   #############
   /api/v1/sign:
