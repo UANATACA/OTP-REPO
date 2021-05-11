@@ -1,0 +1,471 @@
+swagger: '2.0'
+info:
+  version: 'v1'
+  title: UANATACA OTP SIGNATURE API DOCUMENTATION
+  x-logo:
+      url: https://raw.githubusercontent.com/UANATACA/ONESHOT-REPO/main/img/oneshot_logo.png?token=ATF574UWGCYOZPK5RIPMLJ3ALW6HA
+      altText: OTP logo
+  description: 
+    $ref: ./otp_gui.md
+
+host: otponeshot.demo.bit4id.org
+schemes: 
+  - https
+
+x-tagGroups:
+  - name: API Reference
+    tags:
+      - OTP API
+
+
+tags:
+- name: "OTP API"
+  description: ""
+  
+paths:
+
+###### OTP API ######
+###############################################################################
+
+  /api/v1/hello:
+    get: 
+      summary: HELLO
+      tags:
+        - OTP API
+      description: Returns server availability status.
+      responses:
+        200:
+          description: OTP Server is UP
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: "Successful response status"
+              details:
+                type: string
+                description: "Successful response message"
+          examples:
+            application/json:
+                {
+                    "status": "200 OK",
+                    "details": "Hello"
+                }
+      x-codeSamples:
+
+  #############
+  /api/v1/sign:
+    post:
+      summary: SIGN
+      tags:
+        - OTP API
+      description: Activates file signature for one or more signers.
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          description: "Local path of the file to be signed.\n
+                        - **File type in base64 is not accepted**\n"
+        - in: formData
+          name: data
+          type: string
+          description: "
+            JSON string object containing signature parameters. One instance for each signer (See example):
+            * `name` - Signer's name
+            * `mobile` - Signer's mobile phone
+            * `documents` - Signer's associated documentation. Contains:
+                  `tag` -  Associated document descriptive name
+                  `format` - Associated document format
+            * `position` - The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt
+            * `horizontal_position` - The signature position orientation (True: horizontal orientation - False: vertical orientation)
+            * `page` - The document page where the signature will be placed. The first page starts at 0."
+        - in: formData
+          name: callback
+          type: string
+          description: "Url where to send signing process log. See description and sample code in <a href='#section/Configuration/Webhooks'>Webhooks configuration</a>"
+          required: true
+        - in: formData
+          name: graphometric
+          type: string
+          enum: [true, false]
+          description: "Graphic signature activation / deactivation"
+          required: true
+        - in: formData
+          name: enablehardware
+          type: string
+          enum: [true, false]
+          description: "Combined with `graphometric`, signature through Wacom tablet device is enabled when this parameter is set to true"
+          required: true
+        - in: formData
+          name: returnmethod
+          type: string
+          enum: [API, SMS]
+          description: "- **API** Returns the document signature link via API  \n
+                        - **SMS** An SMS with the signature link is sent"
+        - in: formData
+          name: enableotp
+          type: string
+          enum: [true, false]
+          description: "OTP verification activation / deactivation"
+          required: true
+        - in: formData
+          name: signaturetext
+          type: string
+          description: "Text line below the signature area"
+          required: true
+        - in: formData
+          name: sendersms
+          type: string
+          default: "Gesco"
+          description: "Name of the SMS sender that will appear as header"
+          required: true
+        - in: formData
+          name: billing_username
+          type: string
+          description: "Billing account username"
+        - in: formData
+          name: billing_password
+          type: string
+          description: "Billing account password"          
+      responses:
+        201:
+          description: The sign request was executed
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: "Successful response status"
+              details:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The signature request id.
+                  urls:
+                    type: string
+                    description: The url to be sent to the signer(s) for document signature
+          examples:
+            application/json:
+                {
+                    "status": "201 Created",
+                    "details": {
+                        "id": "ce5b1044-62d8-4126-a8e0-f499ecdef3df",
+                        "urls": [
+                            "https://otponeshot.demo.bit4id.org/sign/0/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+                        ]
+                    }
+                }
+
+
+ #############
+  /api/v1/sign/{id}:
+    get:
+      summary: SIGNATURE STATUS
+      tags:
+        - OTP API
+      description: Returns the document signature status in detail for each signer.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: The signature request id.        
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status id
+              details: 
+                type: object
+                description: JSON object with information associated to the signature
+          examples:
+            application/json:
+                {
+                    "status": "200 OK",
+                    "details": {
+                        "status": "done",
+                        "upload_date": "11/05/2021 08:45:56 UTC",
+                        "enableotp": true,
+                        "enablehardware": false,
+                        "returnmethod": "api",
+                        "signaturetext": "Signature Test",
+                        "graphometric": true,
+                        "signers": {
+                            "0": {
+                                "view_date": "11/05/2021 08:46:06 UTC",
+                                "sign_date": "11/05/2021 08:46:45 UTC",
+                                "sign_useragent": "Chrome 90.0.4430 / Windows 10",
+                                "name": "First Signer",
+                                "req_otp_useragent": "Chrome 90.0.4430 / Windows 10",
+                                "view_from_mobile": false,
+                                "mobile": "+34688400127",
+                                "sms": "83ba58887fc32f2952de8d0cd5008907b6348aec",
+                                "view_ipaddress": "54.247.173.178",
+                                "page": 0,
+                                "documents": [
+                                    {
+                                        "upload_date": "11/05/2021 08:46:25 UTC",
+                                        "upload_ipaddress": "54.247.173.178",
+                                        "hash": "94c4b55d2767b21002c534972ad05db8af33b329ca2e9b0971c4d71c2c23781a",
+                                        "format": "image",
+                                        "tag": "Sample IDCard Image",
+                                        "file": "e94e09023d3242aba458b2418799115a",
+                                        "upload_useragent": "Chrome 90.0.4430 / Windows 10"
+                                    }
+                                ],
+                                "view_useragent": "Chrome 90.0.4430 / Windows 10",
+                                "horizontal_position": true,
+                                "complete": true,
+                                "verify_otp_ipaddress": "54.247.173.178",
+                                "verify_otp_date": "11/05/2021 08:46:43 UTC",
+                                "position": "65, 100, 30, 250",
+                                "req_otp_ipaddress": "54.247.173.178",
+                                "verify_otp_useragent": "Chrome 90.0.4430 / Windows 10",
+                                "sign_ipaddress": "54.247.173.178",
+                                "req_otp_date": "11/05/2021 08:46:29 UTC"
+                            }
+                        },
+                        "filename": "Sample_Document.pdf",
+                        "ext": ".pdf",
+                        "sendersms": "MySender",
+                        "mime": "application/pdf",
+                        "partner": "Sample CORP.",
+                        "current_signer": 0,
+                        "complete_date": "11/05/2021 08:46:45 UTC",
+                        "document": "88912a36d6844607947331ffa90d2aed",
+                        "size": 31683
+                    }
+                }
+
+
+#############
+    delete:
+      summary: DELETE DATA
+      tags:
+        - OTP API
+      description: Deletes all data associated to a signature process.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: The signature request id.        
+        required: true
+      responses:
+        205:
+          description: Data deleted successfully
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: "Successful response status"
+              details:
+                type: string
+                description: "Successful response message"
+          examples:
+            application/json:
+                {
+                    "status": "205 Reset Content",
+                    "details": "Data deleted"
+                }
+
+
+  #############
+  /api/v1/retrieve/{id}:
+    get: 
+      summary: RETRIEVE DOCUMENT
+      tags:
+        - OTP API
+      description: Retrieves the signed document.
+      produces:
+        - application/pdf
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: The signature request id.        
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+      x-codeSamples:
+
+  #############
+  /api/v1/retrieve/{id}/evidences:
+    get: 
+      summary: RETRIEVE EVIDENCES
+      tags:
+        - OTP API
+      description: Retrieves the evidence document associated to a signature.
+      produces:
+        - application/pdf
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: The signature request id.        
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+      x-codeSamples:
+
+  #############
+  /api/v1/retrieve/additionals/{id}:
+    get: 
+      summary: RETRIEVE ADDITIONALS
+      tags:
+        - OTP API
+      description: Returns a list of all associated documents uploaded in the signature process.
+      produces:
+        - application/pdf
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: The signature request id.        
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+      x-codeSamples:
+
+  #############
+  /api/v1/retrieve/additional/{id}:
+    get: 
+      summary: RETRIEVE DOCUMENT
+      tags:
+        - OTP API
+      description: Retrieves a specific additional file uploaded for signature.
+      produces:
+        - application/pdf
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: The signature request id.        
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+      x-codeSamples:
+
+###### definitions ######
+###############################################################################
+
+
+definitions:
+    SignObject:
+        type: "object"
+        required:
+          - name
+          - mobile
+        properties:
+            name:
+                type: "string"
+                description: "Signer's name"
+            mobile:
+                type: "string"
+                description: "Signer's mobile phone"
+            documents:
+                type: "object"
+                description: "Signer's associated documentation"
+                properties:
+                  tag:
+                    type: "string"
+                    description: "Associated document descriptive name"
+                  format:
+                    type: "string"
+                    description: "Associated document format"
+            position:
+                type: "string"
+                description: "The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2).<br>
+                              1px = 0.75pt"
+            horizontal_position:
+                type: "string"
+                enum: [true, false]
+                description: "The signature position orientation (True: horizontal orientation - False: vertical orientation)"
+            page:
+                type: "string"
+                description: The document page where the signature will be placed. The first page starts at 0.
