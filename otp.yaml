@@ -74,15 +74,15 @@ paths:
           name: data
           type: string
           description: "
-            JSON string object containing signature parameters. One instance for each signer (See example):
-            * `name` - Signer's name
-            * `mobile` - Signer's mobile phone
-            * `documents` - Signer's associated documentation. Contains:
-                  `tag` -  Associated document descriptive name
-                  `format` - Associated document format
-            * `position` - The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt
-            * `horizontal_position` - The signature position orientation (True: horizontal orientation - False: vertical orientation)
-            * `page` - The document page where the signature will be placed. The first page starts at 0."
+            JSON string object containing signature parameters. One instance for each signer (See example):\n
+            * `name` - Signer's name\n
+            * `mobile` - Signer's mobile phone\n
+            * `documents` - Signer's associated documentation. Contains:\n
+                  `tag` -  Associated document descriptive name\n
+                  `format` - Associated document format\n
+            * `position` - The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt\n
+            * `horizontal_position` - The signature position orientation (True: horizontal orientation - False: vertical orientation)\n
+            * `page` - The document page where the signature will be placed. The first page starts at 0.\n"
         - in: formData
           name: callback
           type: string
