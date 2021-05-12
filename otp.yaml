@@ -113,7 +113,7 @@ paths:
       summary: SIGN
       tags:
         - OTP API
-      description: Activates file signature for one or more signers.
+      description: Signature request. Activates file signature for one or more signers.
       produces:
         - application/json
       consumes:
@@ -130,12 +130,12 @@ paths:
           type: string
           required: true
           description: "
-            JSON string object containing signature parameters. One instance for each signer (See example):\n
+            JSON string object containing signature parameters. One instance for each signer (Check sample codes):\n
             * `name` - Signer's name (required)\n
             * `mobile` - Signer's mobile phone (required)\n
             * `documents` - Signer's associated documentation. Contains:\n
-              - `tag` -  Associated document descriptive name\n
-              - `format` - Associated document format\n
+              * `tag` -  Associated document descriptive name\n
+              * `format` - Associated document format\n
             * `position` - The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt\n
             * `horizontal_position` - The signature position orientation (True: horizontal orientation - False: vertical orientation)\n
             * `page` - The document page where the signature will be placed. The first page starts at 0.\n"
@@ -185,7 +185,7 @@ paths:
           required: true          
       responses:
         201:
-          description: The sign request was executed
+          description: The sign request was executed successfully
           schema:
             type: object
             properties:
@@ -206,11 +206,11 @@ paths:
                 {
                     "status": "201 Created",
                     "details": {
-                        "id": "ce5b1044-62d8-4126-a8e0-f499ecdef3df",
+                        "id": "61effb1c-9499-4c15-971d-bc40c9ebb881",
                         "urls": [
-                            "https://otponeshot.demo.bit4id.org/sign/0/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+                            "https://otponeshot.demo.bit4id.org/sign/0/61effb1c-9499-4c15-971d-bc40c9ebb881",
+                            "https://otponeshot.demo.bit4id.org/sign/1/61effb1c-9499-4c15-971d-bc40c9ebb881"
                         ]
-                    }
                 }
       x-codeSamples:
         - lang: 'curl'
@@ -721,7 +721,7 @@ paths:
       summary: RETRIEVE EVIDENCES
       tags:
         - OTP API
-      description: Retrieves the evidence document associated to a signature.
+      description: Retrieves the document of evidences associated to a signature.
       produces:
         - application/pdf
       parameters:
