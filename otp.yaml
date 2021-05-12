@@ -158,8 +158,8 @@ paths:
           type: string
           enum: [API, SMS]
           description: >
-                        * **API** Returns the document signature link via API
-                        * **SMS** An SMS with the signature link is sent
+            * **API** Returns the document signature link via API
+            * **SMS** An SMS with the signature link is sent
         - in: formData
           name: enableotp
           type: boolean
