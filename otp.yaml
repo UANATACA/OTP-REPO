@@ -211,6 +211,7 @@ paths:
                             "https://otponeshot.demo.bit4id.org/sign/0/61effb1c-9499-4c15-971d-bc40c9ebb881",
                             "https://otponeshot.demo.bit4id.org/sign/1/61effb1c-9499-4c15-971d-bc40c9ebb881"
                         ]
+                    }
                 }
       x-codeSamples:
         - lang: 'curl'
