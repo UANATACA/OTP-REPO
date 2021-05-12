@@ -134,8 +134,8 @@ paths:
             - `name` - Signer's name (required)\n
             - `mobile` - Signer's mobile phone (required)\n
             - `documents` - Signer's associated documentation. Contains: <br>
-              &nbsp `tag` -  Associated document descriptive name <br>
-              `format` - Associated document format\n
+              <p>`tag` -  Associated document descriptive name <\p> <br>
+              <p>`format` - Associated document format <\p><br>
             - `position` - The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt\n
             - `horizontal_position` - The signature position orientation (True: horizontal orientation - False: vertical orientation)\n
             - `page` - The document page where the signature will be placed. The first page starts at 0.\n"
