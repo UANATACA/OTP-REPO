@@ -158,11 +158,8 @@ paths:
           type: string
           enum: [API, SMS]
           description: >
-            Document types allowed for the user identification:
-            * **IDC** - Identification based on national identity card number
-            * **PAS** - Identification based on passport number
-            * **PNO** - Identification based on national personal number (national civic registration number)
-            * **TIN** - Tax Identification Number according to the European Commission
+              * **API** Returns the document signature link via API
+              * **SMS** An SMS with the signature link is sent
         - in: formData
           name: enableotp
           type: boolean
