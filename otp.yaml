@@ -33,6 +33,8 @@ paths:
       tags:
         - OTP API
       description: Returns server availability status.
+      produces:
+        - application/json
       responses:
         200:
           description: OTP Server is UP
@@ -51,8 +53,60 @@ paths:
                     "status": "200 OK",
                     "details": "Hello"
                 }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://otponeshot.demo.bit4id.org/api/v1/hello
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/hello`,
+                    {method: 'GET'}
+                  );
 
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
 
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/hello"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/hello`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/hello");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
   #############
   /api/v1/sign:
     post:
@@ -158,7 +212,180 @@ paths:
                         ]
                     }
                 }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl --location --request POST 'https://otponeshot.demo.bit4id.org/api/v1/sign' \
+                  --header 'Content-Type: application/x-www-form-urlencoded' \
+                  --form 'file=@"sample_folder/document.pdf"' \
+                  --form 'data="[
+                  {\"name\": \"First Signer\", 
+                  \"mobile\": \"+34888888888\",
+                  \"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\": \"ID Rear\", \"format\": \"image\"}],
+                  \"position\": \"65, 100, 30, 250\",
+                  \"horizontal_position\": true,
+                  \"page\":0
+                  },
+                  {\"name\": \"Second Signer\", 
+                  \"mobile\": \"+34999999999\",
+                  \"documents\": [{\"tag\": \"POA\", \"format\": \"PDF\"}],
+                  \"position\": \"65, 100, 30, 250\",
+                  \"horizontal_position\": true,
+                  \"page\":0
+                  }
+                  ]"' \
+                  --form 'callback="http://fse:7777/callback"' \
+                  --form 'graphometric="True"' \
+                  --form 'billing_username="billing_user@domain"' \
+                  --form 'billing_password="z5qNqkfB"' \
+                  --form 'partner="Sample Corp."' \
+                  --form 'returnmethod="API"' \
+                  --form 'enablehardware="False"' \
+                  --form 'enableotp="True"' \
+                  --form 'signaturetext="Signature Test"' \
+                  --form 'sendersms="MySender"'
+        - lang: 'JavaScript'
+          source: |
+                  var myHeaders = new Headers();
+                  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
+                  var formdata = new FormData();
+                  formdata.append("file", fileInput.files[0], "@sample_folder/document.pdf");
+                  formdata.append("data", "[\n{\"name\": \"First Signer\", \n\"mobile\": \"+34888888888\",\n\"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\": \"ID Rear\", \"format\": \"image\"}],\n\"position\": \"65, 100, 30, 250\",\n\"horizontal_position\": true,\n\"page\":0\n},\n{\"name\": \"Second Signer\", \n\"mobile\": \"+34999999999\",\n\"documents\": [{\"tag\": \"POA\", \"format\": \"PDF\"}],\n\"position\": \"65, 100, 30, 250\",\n\"horizontal_position\": true,\n\"page\":0\n}\n]");
+                  formdata.append("callback", "http://fse:7777/callback");
+                  formdata.append("graphometric", "True");
+                  formdata.append("billing_username", "billing_user@domain");
+                  formdata.append("billing_password", "z5qNqkfB");
+                  formdata.append("partner", "Sample Corp.");
+                  formdata.append("returnmethod", "API");
+                  formdata.append("enablehardware", "False");
+                  formdata.append("enableotp", "True");
+                  formdata.append("signaturetext", "Signature Test");
+                  formdata.append("sendersms", "MySender");
+
+                  var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: formdata,
+                    redirect: 'follow'
+                  };
+
+                  fetch("https://otponeshot.demo.bit4id.org/api/v1/sign", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error))
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/sign"
+
+                  payload={'data': '[
+                  {"name": "First Signer", 
+                  "mobile": "+34888888888",
+                  "documents": [{"tag": "ID Front", "format": "image"}, {"tag": "ID Rear", "format": "image"}],
+                  "position": "65, 100, 30, 250",
+                  "horizontal_position": true,
+                  "page":0
+                  },
+                  {"name": "Second Signer", 
+                  "mobile": "+34999999999",
+                  "documents": [{"tag": "POA", "format": "PDF"}],
+                  "position": "65, 100, 30, 250",
+                  "horizontal_position": true,
+                  "page":0
+                  }
+                  ]',
+                  'callback': 'http://fse:7777/callback',
+                  'graphometric': 'True',
+                  'billing_username': 'billing_user@domain',
+                  'billing_password': 'z5qNqkfB',
+                  'partner': 'Sample Corp.',
+                  'returnmethod': 'API',
+                  'enablehardware': 'False',
+                  'enableotp': 'True',
+                  'signaturetext': 'Signature Test',
+                  'sendersms': 'MySender'}
+                  files=[
+                    ('file',('Doc1.pdf',open('@sample_folder/document.pdf','rb'),'application/pdf'))
+                  ]
+                  headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                  }
+
+                  response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+                  print(response.text)
+        - lang: 'Node.js'
+          source: |
+                  var request = require('request');
+                  var fs = require('fs');
+                  var options = {
+                    'method': 'POST',
+                    'url': 'https://otponeshot.demo.bit4id.org/api/v1/sign',
+                    'headers': {
+                      'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    formData: {
+                      'file': {
+                        'value': fs.createReadStream('@sample_folder/document.pdf'),
+                        'options': {
+                          'filename': '@sample_folder/document.pdf',
+                          'contentType': null
+                        }
+                      },
+                      'data': '[\n{"name": "First Signer", \n"mobile": "+34888888888",\n"documents": [{"tag": "ID Front", "format": "image"}, {"tag": "ID Rear", "format": "image"}],\n"position": "65, 100, 30, 250",\n"horizontal_position": true,\n"page":0\n},\n{"name": "Second Signer", \n"mobile": "+34999999999",\n"documents": [{"tag": "POA", "format": "PDF"}],\n"position": "65, 100, 30, 250",\n"horizontal_position": true,\n"page":0\n}\n]',
+                      'callback': 'http://fse:7777/callback',
+                      'graphometric': 'True',
+                      'billing_username': 'billing_user@domain',
+                      'billing_password': 'z5qNqkfB',
+                      'partner': 'Sample Corp.',
+                      'returnmethod': 'API',
+                      'enablehardware': 'False',
+                      'enableotp': 'True',
+                      'signaturetext': 'Signature Test',
+                      'sendersms': 'MySender'
+                    }
+                  };
+                  request(options, function (error, response) {
+                    if (error) throw new Error(error);
+                    console.log(response.body);
+                  });
+        - lang: 'C#'
+          source: |
+                  var client = new RestClient("https://otponeshot.demo.bit4id.org/api/v1/sign");
+                  client.Timeout = -1;
+                  var request = new RestRequest(Method.POST);
+                  request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+                  request.AddFile("file", "@sample_folder/document.pdf");
+                  request.AddParameter("data", "[
+                  {\"name\": \"First Signer\", 
+                  \"mobile\": \"+34888888888\",
+                  \"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\": \"ID Rear\", \"format\": \"image\"}],
+                  \"position\": \"65, 100, 30, 250\",
+                  \"horizontal_position\": true,
+                  \"page\":0
+                  },
+                  {\"name\": \"Second Signer\", 
+                  \"mobile\": \"+34999999999\",
+                  \"documents\": [{\"tag\": \"POA\", \"format\": \"PDF\"}],
+                  \"position\": \"65, 100, 30, 250\",
+                  \"horizontal_position\": true,
+                  \"page\":0
+                  }
+                  ]");
+                  request.AddParameter("callback", "http://fse:7777/callback");
+                  request.AddParameter("graphometric", "True");
+                  request.AddParameter("billing_username", "billing_user@domain");
+                  request.AddParameter("billing_password", "z5qNqkfB");
+                  request.AddParameter("partner", "Sample Corp.");
+                  request.AddParameter("returnmethod", "API");
+                  request.AddParameter("enablehardware", "False");
+                  request.AddParameter("enableotp", "True");
+                  request.AddParameter("signaturetext", "Signature Test");
+                  request.AddParameter("sendersms", "MySender");
+                  IRestResponse response = client.Execute(request);
+                  Console.WriteLine(response.Content);
 
  #############
   /api/v1/sign/{id}:
@@ -245,7 +472,64 @@ paths:
                         "size": 31683
                     }
                 }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+        - lang: 'JavaScript'
+          source: |
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
 
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  id = "YOUR_id_PARAMETER"
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var Id = "YOUR_id_PARAMETER";
+                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
 
 #############
     delete:
@@ -279,7 +563,64 @@ paths:
                     "status": "205 Reset Content",
                     "details": "Data deleted"
                 }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X DELETE \
+                    https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+        - lang: 'JavaScript'
+          source: |
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'DELETE'}
+                  );
 
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  id = "YOUR_id_PARAMETER"
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+
+                  response = requests.delete(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'DELETE'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var Id = "YOUR_id_PARAMETER";
+                        var request = await client.DeleteAsync("https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
 
   #############
   /api/v1/retrieve/{id}:
@@ -316,7 +657,64 @@ paths:
                   endobj\n
                   (...)\n
                 "
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+        - lang: 'JavaScript'
+          source: |
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
 
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  id = "YOUR_id_PARAMETER"
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var Id = "YOUR_id_PARAMETER";
+                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
   #############
   /api/v1/retrieve/{id}/evidences:
     get: 
@@ -352,7 +750,64 @@ paths:
                   endobj\n
                   (...)\n
                 "
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences
+        - lang: 'JavaScript'
+          source: |
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences`,
+                    {method: 'GET'}
+                  );
 
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  id = "YOUR_id_PARAMETER"
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var Id = "YOUR_id_PARAMETER";
+                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
 
   #############
   /api/v1/retrieve/additionals/{id}:
@@ -389,6 +844,64 @@ paths:
                   endobj\n
                   (...)\n
                 "
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+        - lang: 'JavaScript'
+          source: |
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  id = "YOUR_id_PARAMETER"
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var Id = "YOUR_id_PARAMETER";
+                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
   #############
   /api/v1/retrieve/additional/{id}:
     get: 
@@ -424,3 +937,61 @@ paths:
                   endobj\n
                   (...)\n
                 "
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET \
+                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+        - lang: 'JavaScript'
+          source: |
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  id = "YOUR_id_PARAMETER"
+                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+
+                  response = requests.get(url)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const id = 'YOUR_id_PARAMETER';
+                  const resp = await fetch(
+                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+                    {method: 'GET'}
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        var Id = "YOUR_id_PARAMETER";
+                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
