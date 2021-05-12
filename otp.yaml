@@ -1039,7 +1039,7 @@ paths:
                   endobj\n
                   (...)\n
                 "
-       404:
+        404:
           description: Job ID not found | Additional document not found
           schema:
             type: object
