@@ -599,6 +599,23 @@ paths:
                     "status": "205 Reset Content",
                     "details": "Data deleted"
                 }
+        404:
+          description: Job ID not found
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The response status code
+              details:
+                type: string
+                description: The response status message 
+          examples:
+            application/json:
+                {
+                    "status": "404 Not Found",
+                    "details": "Job ID not found!"
+                }
       x-codeSamples:
         - lang: 'curl'
           source: |
@@ -657,23 +674,6 @@ paths:
                       }
                     }
                   }
-        404:
-          description: Job ID not found
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
-            application/json:
-                {
-                    "status": "404 Not Found",
-                    "details": "Job ID not found!"
-                }
   #############
   /api/v1/retrieve/{id}:
     get: 
