@@ -157,8 +157,9 @@ paths:
           name: returnmethod
           type: string
           enum: [API, SMS]
-          description: "* **API** Returns the document signature link via API
-                        * **SMS** An SMS with the signature link is sent"
+          description: >
+                        * **API** Returns the document signature link via API
+                        * **SMS** An SMS with the signature link is sent
         - in: formData
           name: enableotp
           type: boolean
