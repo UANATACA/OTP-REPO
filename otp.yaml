@@ -682,7 +682,7 @@ paths:
         - OTP API
       description: Retrieves the signed document.
       produces:
-        - application/pdf
+        - application/json
       parameters:
       - in: path
         name: id
@@ -792,7 +792,7 @@ paths:
         - OTP API
       description: Retrieves the document of evidences associated to a signature.
       produces:
-        - application/pdf
+        - application/json
       parameters:
       - in: path
         name: id
@@ -920,7 +920,7 @@ paths:
         - OTP API
       description: Returns a list of all associated documents uploaded in the signature process.
       produces:
-        - application/pdf
+        - application/json
       parameters:
       - in: path
         name: id
@@ -1012,7 +1012,7 @@ paths:
         - OTP API
       description: Retrieves a specific additional file uploaded for signature.
       produces:
-        - application/pdf
+        - application/json
       parameters:
       - in: path
         name: id
