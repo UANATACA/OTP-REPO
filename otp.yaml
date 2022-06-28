@@ -140,7 +140,7 @@ paths:
               - file
               properties:
                 file:
-                  type: object
+                  type: string
                   description: |
                     Local path of the file to be signed.
                     <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
@@ -159,13 +159,7 @@ paths:
                     documents:
                       type: string
                       description: Signer's associated documentation. This field requires tag and format.
-                      properties: 
-                        tag:
-                          type: string
-                          description: Associated document descriptive name
-                        format:
-                          type: string
-                          description: Associated document format
+
                     position:
                       type: string
                       description: The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt
