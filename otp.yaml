@@ -161,7 +161,7 @@ paths:
                       type: string
                       description: Signer's mobile phone
                     documents:
-                      type: string
+                      type: object
                       description: Signer's associated documentation. This field requires tag and format.
                       properties: 
                         tag:
