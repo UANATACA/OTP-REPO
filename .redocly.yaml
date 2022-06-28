@@ -87,8 +87,9 @@ referenceDocs:
         fontFamily: 'Lato'
     layout:
       showDarkRightPanel: true
-    layoutControls:
-        top: '50px'   
+    components:
+      layoutControls:
+          top: '50px'   
     rightPanel:
       backgroundColor: '#585856'
       width: '40%'
