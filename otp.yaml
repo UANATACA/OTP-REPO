@@ -151,7 +151,7 @@ paths:
                   required: 
                     - name
                     - mobile
-                  type: string
+                  type: object
                   description: JSON string object containing signature parameters. One JSON object for each signer is needed.
                   properties:
                     name:
