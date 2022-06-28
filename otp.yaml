@@ -148,7 +148,10 @@ paths:
                     color: #3b3b3b;''><b>⚠ File type in base64 is not accepted</a></b></blockquote>
                   format: binary
                 data:
-                  type: object
+                  required: 
+                    - name
+                    - mobile
+                  type: string
                   description: JSON string object containing signature parameters. One JSON object for each signer is needed.
                   properties:
                     name:
@@ -160,7 +163,13 @@ paths:
                     documents:
                       type: string
                       description: Signer's associated documentation. This field requires tag and format.
-
+                      properties: 
+                        tag:
+                          type: string
+                          description: Associated document descriptive name
+                        format:
+                          type: string
+                          description: Associated document format
                     position:
                       type: string
                       description: The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt
