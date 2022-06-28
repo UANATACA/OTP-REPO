@@ -1,6 +1,8 @@
 openapi: 3.0.1
 info:
   title: UANATACA OTP SIGNATURE API DOCUMENTATION
+  description: 
+    $ref: ./otp_gui.md
   version: v1
   x-logo:
     url: https://raw.githubusercontent.com/UANATACA/OTP-REPO/main/img/otp_logo.png
