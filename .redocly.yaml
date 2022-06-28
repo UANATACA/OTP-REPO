@@ -2,7 +2,7 @@ apiDefinitions:
   main: otp.yaml
 referenceDocs:
   hideDownloadButton: true
-  showConsole: true
+  showConsole: false
   scrollYOffset: main-header # Esto baja el panel verical izquierdo justo debajo del header
   generateCodeSamples:
     languages:
@@ -11,7 +11,7 @@ referenceDocs:
       - lang: "Python"
       - lang: "Node.js"
       - lang: "C#"
-  hideRequestPayloadSample: true
+  hideRequestPayloadSample: false
   theme:
     spacing:
       sectionHorizontal: 80
