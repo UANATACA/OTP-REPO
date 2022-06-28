@@ -8,7 +8,8 @@
 <div style="text-align: justify">
 An HTTP RESTful API is exposed directly from Uanataca Trusted Service Center by means of which, business applications are enabled to perform electronic advanced signatures making use of this tool.
 <br>
-For the execution of signature requests, all the data has to be sent along the credentials of the Billing account which will be used to authenticate the user.
+For the execution of signature requests, all the data has to be sent along the credentials of the Billing account which will be used to authenticate the user. All the operations are performed in our side and the result will be a document signed by Uanataca which is a Qualified Trusted Service Provider.
+<br>
 OTP Signature generates an audit trail evidence report which reflects every step performed with his belonging information. This audit trail will be obtanaible retrieving the document through an API call or scanning a QR code, this code is directly linked to the evidences and it can be found into the signed document.
 </div>
 
