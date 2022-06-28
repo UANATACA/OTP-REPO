@@ -133,6 +133,7 @@ paths:
         content:
           multipart/form-data:
             schema:
+              type: object
               required:
               - billing_password
               - billing_username
