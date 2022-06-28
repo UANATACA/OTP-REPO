@@ -1,1116 +1,1054 @@
-swagger: '2.0'
+openapi: 3.0.1
 info:
-  version: 'v1'
   title: UANATACA OTP SIGNATURE API DOCUMENTATION
+  version: v1
   x-logo:
-      url: https://raw.githubusercontent.com/UANATACA/OTP-REPO/main/img/otp_logo.png
-      altText: OTP logo
-  description: 
-    $ref: ./otp_gui.md
-
-host: otponeshot.demo.bit4id.org
-schemes: 
-  - https
-
-x-tagGroups:
-  - name: API Reference
-    tags:
-      - OTP API
-
-
+    url: https://raw.githubusercontent.com/UANATACA/OTP-REPO/main/img/otp_logo.png
+    altText: OTP logo
+servers:
+- url: https://otponeshot.demo.bit4id.org
 tags:
-- name: "OTP API"
-  description: ""
-  
+- name: OTP API
+  description: '
+    <html>
+
+    A digital signature request contains user identification data and associated documents to be signed.</br>
+      <table> 
+        <tr> 
+          <th>Method</th><th>Endpoint</th><th>Action</th> 
+        </tr> 
+        <tr>
+          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1hello/get''>/hello</a></td><td>Checks for server UP status</td> 
+        </tr> 
+        <tr> 
+          <td>POST</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1sign/post''>/sign</a></td><td>Create a signature process</td> 
+        </tr> 
+        <tr> 
+          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1sign~1{id}/get''>/sign/{id}</a></td><td>Check information about signature process status</td> 
+        </tr> 
+        <tr> 
+          <td>DEL</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1sign~1{id}/delete''>/sign/{id}</a></td><td>Delete information relative to a process</td> 
+        </tr>
+        <tr> 
+          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1{id}/get''>/retrieve/{id}</a></td><td>Retrieve the signed file through the id of the process</td> 
+        </tr>
+        <tr> 
+          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1{id}~1evidences/get''>/retrieve/{id}/evidences</a></td><td>Retrieve the evidences document of the process</td> 
+        </tr>
+        <tr> 
+          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1additionals~1{id}/get''>/retrieve/additionals/{id}</a></td><td>Retrieve the list of additional documents loaded in the process</td> 
+        </tr>
+        <tr> 
+          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1additional~1{id}/get''>/retrieve/additional/{id}</a></td><td>Retrieve an additional document through his id</td> 
+        </tr> 
+      </table>
+    </html>
+    '
+
 paths:
-
-###### OTP API ######
-###############################################################################
-
   /api/v1/hello:
-    get: 
-      summary: HELLO
+    get:
       tags:
-        - OTP API
+      - OTP API
+      summary: HELLO
       description: Returns server availability status.
-      produces:
-        - application/json
       responses:
         200:
           description: OTP Server is UP
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: "Successful response status"
-              details:
-                type: string
-                description: "Successful response message"
-          examples:
+          content:
             application/json:
-                {
-                    "status": "200 OK",
-                    "details": "Hello"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Successful response status
+                  details:
+                    type: string
+                    description: Successful response message
+              example:
+                status: 200 OK
+                details: Hello
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl -i -X GET \
-                    https://otponeshot.demo.bit4id.org/api/v1/hello
-        - lang: 'JavaScript'
-          source: |
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/hello`,
-                    {method: 'GET'}
-                  );
+      - lang: curl
+        source: |
+          curl -i -X GET \
+            https://otponeshot.demo.bit4id.org/api/v1/hello
+      - lang: JavaScript
+        source: |
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/hello`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'Python'
-          source: |
-                  import requests
+          const data = await resp.text();
+          console.log(data);
+      - lang: Python
+        source: |
+          import requests
 
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/hello"
+          url = "https://otponeshot.demo.bit4id.org/api/v1/hello"
 
-                  response = requests.get(url)
+          response = requests.get(url)
 
-                  data = response.json()
-                  print(data)
-        - lang: 'Node.js'
-          source: |
-                  const fetch = require('node-fetch');
+          data = response.json()
+          print(data)
+      - lang: Node.js
+        source: |
+          const fetch = require('node-fetch');
 
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/hello`,
-                    {method: 'GET'}
-                  );
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/hello`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'C#'
-          source: |
-                  using System;
-                  using System.Net.Http;
-                  using System.Threading.Tasks;
+          const data = await resp.text();
+          console.log(data);
+      - lang: C#
+        source: |
+          using System;
+          using System.Net.Http;
+          using System.Threading.Tasks;
 
-                  public class Program
-                  {
-                    public static async Task Main(string[] args)
-                    {
-                      using (var client = new HttpClient())
-                      {
-                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/hello");
-                        var response = await request.Content.ReadAsStringAsync();
+          public class Program
+          {
+            public static async Task Main(string[] args)
+            {
+              using (var client = new HttpClient())
+              {
+                var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/hello");
+                var response = await request.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(response);
-                      }
-                    }
-                  }
-  #############
+                Console.WriteLine(response);
+              }
+            }
+          }
   /api/v1/sign:
     post:
-      summary: SIGN
       tags:
-        - OTP API
+      - OTP API
+      summary: SIGN
       description: Signature request. Activates file signature for one or more signers.
-      produces:
-        - application/json
-      consumes:
-        - multipart/form-data
-      parameters:
-        - in: formData
-          name: file
-          type: file
-          required: true
-          description: "Local path of the file to be signed.\n
-                        - **File type in base64 is not accepted**\n"
-        - in: formData
-          name: data
-          type: string
-          required: true
-          description: "
-            JSON string object containing signature parameters. One instance for each signer (Check sample codes):\n
-            - `name` - Signer's name (required)\n
-            - `mobile` - Signer's mobile phone (required)\n
-            - `documents` - Signer's associated documentation. Contains: <br>
-              `tag` -  Associated document descriptive name <br>
-              `format` - Associated document format\n
-            - `position` - The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt\n
-            - `horizontal_position` - The signature position orientation (True: horizontal orientation - False: vertical orientation)\n
-            - `page` - The document page where the signature will be placed. The first page starts at 0.\n"
-        - in: formData
-          name: callback
-          type: string
-          description: "Url where to send signing process log. See description and sample code in <a href='#section/Configuration/Webhooks'>Webhooks configuration</a>"
-        - in: formData
-          name: graphometric
-          type: boolean
-          enum: [true, false]
-          description: "Graphic signature activation / deactivation"
-        - in: formData
-          name: enablehardware
-          type: boolean
-          enum: [true, false]
-          description: "Combined with `graphometric`, signature through Wacom tablet device is enabled when this parameter is set to true"
-        - in: formData
-          name: returnmethod
-          type: string
-          enum: [API, SMS]
-          description: "
-              - **API** Returns the document signature link via API \n
-              - **SMS** An SMS with the signature link is sent"
-        - in: formData
-          name: enableotp
-          type: boolean
-          enum: [true, false]
-          description: "OTP verification activation / deactivation"
-        - in: formData
-          name: signaturetext
-          type: string
-          description: "Text line below the signature area"
-        - in: formData
-          name: sendersms
-          type: string
-          default: "Gesco"
-          description: "Name of the SMS sender that will appear as header"
-        - in: formData
-          name: billing_username
-          type: string
-          description: "Billing account username"
-          required: true
-        - in: formData
-          name: billing_password
-          type: string
-          description: "Billing account password"
-          required: true          
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - billing_password
+              - billing_username
+              - data
+              - file
+              properties:
+                file:
+                  type: object
+                  description: |
+                    Local path of the file to be signed.
+                    <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
+                    color: #3b3b3b;''><b>⚠ File type in base64 is not accepted</a></b></blockquote>
+                  format: binary
+                data:
+                  required: 
+                    - name
+                    - mobile
+                  type: string
+                  description: JSON string object containing signature parameters. One JSON object for each signer is needed.
+                  properties:
+                    name:
+                      type: string
+                      description: Signer's name
+                    mobile:
+                      type: string
+                      description: Signer's mobile phone
+                    documents:
+                      type: string
+                      description: Signer's associated documentation. This field requires tag and format.
+                      properties: 
+                        tag:
+                          type: string
+                          description: Associated document descriptive name
+                        format:
+                          type: string
+                          description: Associated document format
+                    position:
+                      type: string
+                      description: The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt
+                    horizontal_position:
+                      type: boolean
+                      description: Graphical signature position orientation
+                    page:
+                      type: string
+                      description: Document page where the signature will be placed. First page starts at 0 value.
+                    
+                callback:
+                  type: string
+                  description: Webhook where signing process log is going to be sent. See description
+                    and sample code in <a href='#section/Configuration/Webhooks'>Webhooks
+                    configuration</a>
+                graphometric:
+                  type: boolean
+                  description: Graphic signature activation / deactivation
+                  enum:
+                  - true
+                  - false
+                enablehardware:
+                  type: boolean
+                  description: Combined with `graphometric`, signature through Wacom
+                    tablet device is enabled when this parameter is set to true
+                  enum:
+                  - true
+                  - false
+                returnmethod:
+                  type: string
+                  description: " - `API` value returns the document signature link via\
+                    \ API \n - `SMS` value returns an SMS with the signature request link"
+                  enum:
+                  - API
+                  - SMS
+                enableotp:
+                  type: boolean
+                  description: OTP verification activation / deactivation
+                  enum:
+                  - true
+                  - false
+                signaturetext:
+                  type: string
+                  description: Text line below the signature area
+                sendersms:
+                  type: string
+                  description: Name of the SMS sender that will appear as header
+                billing_username:
+                  type: string
+                  description: Billing account username
+                billing_password:
+                  type: string
+                  description: Billing account password
+        required: true
       responses:
         201:
           description: The sign request was executed successfully
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: "Successful response status"
-              details:
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
-                  id:
+                  status:
                     type: string
-                    description: The signature request id.
+                    description: Successful response status
+                  details:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: The signature request id.
+                      urls:
+                        type: string
+                        description: The url to be sent to the signer(s) for document
+                          signature
+              example:
+                status: 201 Created
+                details:
+                  id: 61effb1c-9499-4c15-971d-bc40c9ebb881
                   urls:
-                    type: string
-                    description: The url to be sent to the signer(s) for document signature
-          examples:
-            application/json:
-                {
-                    "status": "201 Created",
-                    "details": {
-                        "id": "61effb1c-9499-4c15-971d-bc40c9ebb881",
-                        "urls": [
-                            "https://otponeshot.demo.bit4id.org/sign/0/61effb1c-9499-4c15-971d-bc40c9ebb881",
-                            "https://otponeshot.demo.bit4id.org/sign/1/61effb1c-9499-4c15-971d-bc40c9ebb881"
-                        ]
-                    }
-                }
+                   -"https://otponeshot.demo.bit4id.org/sign/0/61effb1c-9499-4c15-971d-bc40c9ebb881"
+                   -"https://otponeshot.demo.bit4id.org/sign/1/61effb1c-9499-4c15-971d-bc40c9ebb881"
         400:
-          description: JSON syntax error | Mismatching parameter settings | Invalid billing credentials
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          description: JSON syntax error | Mismatching parameter settings | Invalid
+            billing credentials
+          content:
             application/json:
-                {
-                    "status": "400 Bad Request",
-                    "details": "enablehardware and enableotp parameters cannot be valued False at the same time"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 400 Bad Request
+                details: enablehardware and enableotp parameters cannot be valued
+                  False at the same time
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl --location --request POST 'https://otponeshot.demo.bit4id.org/api/v1/sign' \
-                  --header 'Content-Type: application/x-www-form-urlencoded' \
-                  --form 'file=@"sample_folder/document.pdf"' \
-                  --form 'data="[
-                  {\"name\": \"First Signer\", 
-                  \"mobile\": \"+34888888888\",
-                  \"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\": \"ID Rear\", \"format\": \"image\"}],
-                  \"position\": \"65, 100, 30, 250\",
-                  \"horizontal_position\": true,
-                  \"page\":0
-                  },
-                  {\"name\": \"Second Signer\", 
-                  \"mobile\": \"+34999999999\",
-                  \"documents\": [{\"tag\": \"POA\", \"format\": \"PDF\"}],
-                  \"position\": \"65, 100, 30, 250\",
-                  \"horizontal_position\": true,
-                  \"page\":0
-                  }
-                  ]"' \
-                  --form 'callback="http://fse:7777/callback"' \
-                  --form 'graphometric="True"' \
-                  --form 'billing_username="billing_user@domain"' \
-                  --form 'billing_password="z5qNqkfB"' \
-                  --form 'partner="Sample Corp."' \
-                  --form 'returnmethod="API"' \
-                  --form 'enablehardware="False"' \
-                  --form 'enableotp="True"' \
-                  --form 'signaturetext="Signature Test"' \
-                  --form 'sendersms="MySender"'
-        - lang: 'JavaScript'
-          source: |
-                  var myHeaders = new Headers();
-                  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      - lang: curl
+        source: "curl --location --request POST 'https://otponeshot.demo.bit4id.org/api/v1/sign'\
+          \ \\\n--header 'Content-Type: application/x-www-form-urlencoded' \\\n--form\
+          \ 'file=@\"sample_folder/document.pdf\"' \\\n--form 'data=\"[\n{\\\"name\\\
+          \": \\\"First Signer\\\", \n\\\"mobile\\\": \\\"+34888888888\\\",\n\\\"\
+          documents\\\": [{\\\"tag\\\": \\\"ID Front\\\", \\\"format\\\": \\\"image\\\
+          \"}, {\\\"tag\\\": \\\"ID Rear\\\", \\\"format\\\": \\\"image\\\"}],\n\\\
+          \"position\\\": \\\"65, 100, 30, 250\\\",\n\\\"horizontal_position\\\":\
+          \ true,\n\\\"page\\\":0\n},\n{\\\"name\\\": \\\"Second Signer\\\", \n\\\"\
+          mobile\\\": \\\"+34999999999\\\",\n\\\"documents\\\": [{\\\"tag\\\": \\\"\
+          POA\\\", \\\"format\\\": \\\"PDF\\\"}],\n\\\"position\\\": \\\"65, 100,\
+          \ 30, 250\\\",\n\\\"horizontal_position\\\": true,\n\\\"page\\\":0\n}\n\
+          ]\"' \\\n--form 'callback=\"http://fse:7777/callback\"' \\\n--form 'graphometric=\"\
+          True\"' \\\n--form 'billing_username=\"billing_user@domain\"' \\\n--form\
+          \ 'billing_password=\"z5qNqkfB\"' \\\n--form 'partner=\"Sample Corp.\"'\
+          \ \\\n--form 'returnmethod=\"API\"' \\\n--form 'enablehardware=\"False\"\
+          ' \\\n--form 'enableotp=\"True\"' \\\n--form 'signaturetext=\"Signature\
+          \ Test\"' \\\n--form 'sendersms=\"MySender\"'\n"
+      - lang: JavaScript
+        source: |
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-                  var formdata = new FormData();
-                  formdata.append("file", fileInput.files[0], "@sample_folder/document.pdf");
-                  formdata.append("data", "[\n{\"name\": \"First Signer\", \n\"mobile\": \"+34888888888\",\n\"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\": \"ID Rear\", \"format\": \"image\"}],\n\"position\": \"65, 100, 30, 250\",\n\"horizontal_position\": true,\n\"page\":0\n},\n{\"name\": \"Second Signer\", \n\"mobile\": \"+34999999999\",\n\"documents\": [{\"tag\": \"POA\", \"format\": \"PDF\"}],\n\"position\": \"65, 100, 30, 250\",\n\"horizontal_position\": true,\n\"page\":0\n}\n]");
-                  formdata.append("callback", "http://fse:7777/callback");
-                  formdata.append("graphometric", "True");
-                  formdata.append("billing_username", "billing_user@domain");
-                  formdata.append("billing_password", "z5qNqkfB");
-                  formdata.append("partner", "Sample Corp.");
-                  formdata.append("returnmethod", "API");
-                  formdata.append("enablehardware", "False");
-                  formdata.append("enableotp", "True");
-                  formdata.append("signaturetext", "Signature Test");
-                  formdata.append("sendersms", "MySender");
+          var formdata = new FormData();
+          formdata.append("file", fileInput.files[0], "@sample_folder/document.pdf");
+          formdata.append("data", "[\n{\"name\": \"First Signer\", \n\"mobile\": \"+34888888888\",\n\"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\": \"ID Rear\", \"format\": \"image\"}],\n\"position\": \"65, 100, 30, 250\",\n\"horizontal_position\": true,\n\"page\":0\n},\n{\"name\": \"Second Signer\", \n\"mobile\": \"+34999999999\",\n\"documents\": [{\"tag\": \"POA\", \"format\": \"PDF\"}],\n\"position\": \"65, 100, 30, 250\",\n\"horizontal_position\": true,\n\"page\":0\n}\n]");
+          formdata.append("callback", "http://fse:7777/callback");
+          formdata.append("graphometric", "True");
+          formdata.append("billing_username", "billing_user@domain");
+          formdata.append("billing_password", "z5qNqkfB");
+          formdata.append("partner", "Sample Corp.");
+          formdata.append("returnmethod", "API");
+          formdata.append("enablehardware", "False");
+          formdata.append("enableotp", "True");
+          formdata.append("signaturetext", "Signature Test");
+          formdata.append("sendersms", "MySender");
 
-                  var requestOptions = {
-                    method: 'POST',
-                    headers: myHeaders,
-                    body: formdata,
-                    redirect: 'follow'
-                  };
+          var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: formdata,
+            redirect: 'follow'
+          };
 
-                  fetch("https://otponeshot.demo.bit4id.org/api/v1/sign", requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error))
-        - lang: 'Python'
-          source: |
-                  import requests
-
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/sign"
-
-                  payload={'data': '[
-                  {"name": "First Signer", 
-                  "mobile": "+34888888888",
-                  "documents": [{"tag": "ID Front", "format": "image"}, {"tag": "ID Rear", "format": "image"}],
-                  "position": "65, 100, 30, 250",
-                  "horizontal_position": true,
-                  "page":0
-                  },
-                  {"name": "Second Signer", 
-                  "mobile": "+34999999999",
-                  "documents": [{"tag": "POA", "format": "PDF"}],
-                  "position": "65, 100, 30, 250",
-                  "horizontal_position": true,
-                  "page":0
-                  }
-                  ]',
-                  'callback': 'http://fse:7777/callback',
-                  'graphometric': 'True',
-                  'billing_username': 'billing_user@domain',
-                  'billing_password': 'z5qNqkfB',
-                  'partner': 'Sample Corp.',
-                  'returnmethod': 'API',
-                  'enablehardware': 'False',
-                  'enableotp': 'True',
-                  'signaturetext': 'Signature Test',
-                  'sendersms': 'MySender'}
-                  files=[
-                    ('file',('Doc1.pdf',open('@sample_folder/document.pdf','rb'),'application/pdf'))
-                  ]
-                  headers = {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                  }
-
-                  response = requests.request("POST", url, headers=headers, data=payload, files=files)
-
-                  print(response.text)
-        - lang: 'Node.js'
-          source: |
-                  var request = require('request');
-                  var fs = require('fs');
-                  var options = {
-                    'method': 'POST',
-                    'url': 'https://otponeshot.demo.bit4id.org/api/v1/sign',
-                    'headers': {
-                      'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    formData: {
-                      'file': {
-                        'value': fs.createReadStream('@sample_folder/document.pdf'),
-                        'options': {
-                          'filename': '@sample_folder/document.pdf',
-                          'contentType': null
-                        }
-                      },
-                      'data': '[\n{"name": "First Signer", \n"mobile": "+34888888888",\n"documents": [{"tag": "ID Front", "format": "image"}, {"tag": "ID Rear", "format": "image"}],\n"position": "65, 100, 30, 250",\n"horizontal_position": true,\n"page":0\n},\n{"name": "Second Signer", \n"mobile": "+34999999999",\n"documents": [{"tag": "POA", "format": "PDF"}],\n"position": "65, 100, 30, 250",\n"horizontal_position": true,\n"page":0\n}\n]',
-                      'callback': 'http://fse:7777/callback',
-                      'graphometric': 'True',
-                      'billing_username': 'billing_user@domain',
-                      'billing_password': 'z5qNqkfB',
-                      'partner': 'Sample Corp.',
-                      'returnmethod': 'API',
-                      'enablehardware': 'False',
-                      'enableotp': 'True',
-                      'signaturetext': 'Signature Test',
-                      'sendersms': 'MySender'
-                    }
-                  };
-                  request(options, function (error, response) {
-                    if (error) throw new Error(error);
-                    console.log(response.body);
-                  });
-        - lang: 'C#'
-          source: |
-                  var client = new RestClient("https://otponeshot.demo.bit4id.org/api/v1/sign");
-                  client.Timeout = -1;
-                  var request = new RestRequest(Method.POST);
-                  request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-                  request.AddFile("file", "@sample_folder/document.pdf");
-                  request.AddParameter("data", "[
-                  {\"name\": \"First Signer\", 
-                  \"mobile\": \"+34888888888\",
-                  \"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\": \"ID Rear\", \"format\": \"image\"}],
-                  \"position\": \"65, 100, 30, 250\",
-                  \"horizontal_position\": true,
-                  \"page\":0
-                  },
-                  {\"name\": \"Second Signer\", 
-                  \"mobile\": \"+34999999999\",
-                  \"documents\": [{\"tag\": \"POA\", \"format\": \"PDF\"}],
-                  \"position\": \"65, 100, 30, 250\",
-                  \"horizontal_position\": true,
-                  \"page\":0
-                  }
-                  ]");
-                  request.AddParameter("callback", "http://fse:7777/callback");
-                  request.AddParameter("graphometric", "True");
-                  request.AddParameter("billing_username", "billing_user@domain");
-                  request.AddParameter("billing_password", "z5qNqkfB");
-                  request.AddParameter("partner", "Sample Corp.");
-                  request.AddParameter("returnmethod", "API");
-                  request.AddParameter("enablehardware", "False");
-                  request.AddParameter("enableotp", "True");
-                  request.AddParameter("signaturetext", "Signature Test");
-                  request.AddParameter("sendersms", "MySender");
-                  IRestResponse response = client.Execute(request);
-                  Console.WriteLine(response.Content);
-
- #############
+          fetch("https://otponeshot.demo.bit4id.org/api/v1/sign", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error))
+      - lang: Python
+        source: "import requests\n\nurl = \"https://otponeshot.demo.bit4id.org/api/v1/sign\"\
+          \n\npayload={'data': '[\n{\"name\": \"First Signer\", \n\"mobile\": \"+34888888888\"\
+          ,\n\"documents\": [{\"tag\": \"ID Front\", \"format\": \"image\"}, {\"tag\"\
+          : \"ID Rear\", \"format\": \"image\"}],\n\"position\": \"65, 100, 30, 250\"\
+          ,\n\"horizontal_position\": true,\n\"page\":0\n},\n{\"name\": \"Second Signer\"\
+          , \n\"mobile\": \"+34999999999\",\n\"documents\": [{\"tag\": \"POA\", \"\
+          format\": \"PDF\"}],\n\"position\": \"65, 100, 30, 250\",\n\"horizontal_position\"\
+          : true,\n\"page\":0\n}\n]',\n'callback': 'http://fse:7777/callback',\n'graphometric':\
+          \ 'True',\n'billing_username': 'billing_user@domain',\n'billing_password':\
+          \ 'z5qNqkfB',\n'partner': 'Sample Corp.',\n'returnmethod': 'API',\n'enablehardware':\
+          \ 'False',\n'enableotp': 'True',\n'signaturetext': 'Signature Test',\n'sendersms':\
+          \ 'MySender'}\nfiles=[\n  ('file',('Doc1.pdf',open('@sample_folder/document.pdf','rb'),'application/pdf'))\n\
+          ]\nheaders = {\n  'Content-Type': 'application/x-www-form-urlencoded'\n\
+          }\n\nresponse = requests.request(\"POST\", url, headers=headers, data=payload,\
+          \ files=files)\n\nprint(response.text)\n"
+      - lang: Node.js
+        source: |
+          var request = require('request');
+          var fs = require('fs');
+          var options = {
+            'method': 'POST',
+            'url': 'https://otponeshot.demo.bit4id.org/api/v1/sign',
+            'headers': {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            formData: {
+              'file': {
+                'value': fs.createReadStream('@sample_folder/document.pdf'),
+                'options': {
+                  'filename': '@sample_folder/document.pdf',
+                  'contentType': null
+                }
+              },
+              'data': '[\n{"name": "First Signer", \n"mobile": "+34888888888",\n"documents": [{"tag": "ID Front", "format": "image"}, {"tag": "ID Rear", "format": "image"}],\n"position": "65, 100, 30, 250",\n"horizontal_position": true,\n"page":0\n},\n{"name": "Second Signer", \n"mobile": "+34999999999",\n"documents": [{"tag": "POA", "format": "PDF"}],\n"position": "65, 100, 30, 250",\n"horizontal_position": true,\n"page":0\n}\n]',
+              'callback': 'http://fse:7777/callback',
+              'graphometric': 'True',
+              'billing_username': 'billing_user@domain',
+              'billing_password': 'z5qNqkfB',
+              'partner': 'Sample Corp.',
+              'returnmethod': 'API',
+              'enablehardware': 'False',
+              'enableotp': 'True',
+              'signaturetext': 'Signature Test',
+              'sendersms': 'MySender'
+            }
+          };
+          request(options, function (error, response) {
+            if (error) throw new Error(error);
+            console.log(response.body);
+          });
+      - lang: C#
+        source: "var client = new RestClient(\"https://otponeshot.demo.bit4id.org/api/v1/sign\"\
+          );\nclient.Timeout = -1;\nvar request = new RestRequest(Method.POST);\n\
+          request.AddHeader(\"Content-Type\", \"application/x-www-form-urlencoded\"\
+          );\nrequest.AddFile(\"file\", \"@sample_folder/document.pdf\");\nrequest.AddParameter(\"\
+          data\", \"[\n{\\\"name\\\": \\\"First Signer\\\", \n\\\"mobile\\\": \\\"\
+          +34888888888\\\",\n\\\"documents\\\": [{\\\"tag\\\": \\\"ID Front\\\", \\\
+          \"format\\\": \\\"image\\\"}, {\\\"tag\\\": \\\"ID Rear\\\", \\\"format\\\
+          \": \\\"image\\\"}],\n\\\"position\\\": \\\"65, 100, 30, 250\\\",\n\\\"\
+          horizontal_position\\\": true,\n\\\"page\\\":0\n},\n{\\\"name\\\": \\\"\
+          Second Signer\\\", \n\\\"mobile\\\": \\\"+34999999999\\\",\n\\\"documents\\\
+          \": [{\\\"tag\\\": \\\"POA\\\", \\\"format\\\": \\\"PDF\\\"}],\n\\\"position\\\
+          \": \\\"65, 100, 30, 250\\\",\n\\\"horizontal_position\\\": true,\n\\\"\
+          page\\\":0\n}\n]\");\nrequest.AddParameter(\"callback\", \"http://fse:7777/callback\"\
+          );\nrequest.AddParameter(\"graphometric\", \"True\");\nrequest.AddParameter(\"\
+          billing_username\", \"billing_user@domain\");\nrequest.AddParameter(\"billing_password\"\
+          , \"z5qNqkfB\");\nrequest.AddParameter(\"partner\", \"Sample Corp.\");\n\
+          request.AddParameter(\"returnmethod\", \"API\");\nrequest.AddParameter(\"\
+          enablehardware\", \"False\");\nrequest.AddParameter(\"enableotp\", \"True\"\
+          );\nrequest.AddParameter(\"signaturetext\", \"Signature Test\");\nrequest.AddParameter(\"\
+          sendersms\", \"MySender\");\nIRestResponse response = client.Execute(request);\n\
+          Console.WriteLine(response.Content);\n"
   /api/v1/sign/{id}:
     get:
-      summary: SIGNATURE STATUS
       tags:
-        - OTP API
+      - OTP API
+      summary: SIGNATURE STATUS
       description: Returns the document signature status in detail for each signer.
-      produces:
-        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        description: The signature request id.        
+      - name: id
+        in: path
+        description: The signature request id.
         required: true
+        schema:
+          type: string
       responses:
         200:
           description: Successful Response
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status id
-              details: 
-                type: object
-                description: JSON object with information associated to the signature
-          examples:
+          content:
             application/json:
-                {
-                    "status": "200 OK",
-                    "details": {
-                        "status": "done",
-                        "upload_date": "11/05/2021 08:45:56 UTC",
-                        "enableotp": true,
-                        "enablehardware": false,
-                        "returnmethod": "api",
-                        "signaturetext": "Signature Test",
-                        "graphometric": true,
-                        "signers": {
-                            "0": {
-                                "view_date": "11/05/2021 08:46:06 UTC",
-                                "sign_date": "11/05/2021 08:46:45 UTC",
-                                "sign_useragent": "Chrome 90.0.4430 / Windows 10",
-                                "name": "First Signer",
-                                "req_otp_useragent": "Chrome 90.0.4430 / Windows 10",
-                                "view_from_mobile": false,
-                                "mobile": "+34688400127",
-                                "sms": "83ba58887fc32f2952de8d0cd5008907b6348aec",
-                                "view_ipaddress": "54.247.173.178",
-                                "page": 0,
-                                "documents": [
-                                    {
-                                        "upload_date": "11/05/2021 08:46:25 UTC",
-                                        "upload_ipaddress": "54.247.173.178",
-                                        "hash": "94c4b55d2767b21002c534972ad05db8af33b329ca2e9b0971c4d71c2c23781a",
-                                        "format": "image",
-                                        "tag": "Sample IDCard Image",
-                                        "file": "e94e09023d3242aba458b2418799115a",
-                                        "upload_useragent": "Chrome 90.0.4430 / Windows 10"
-                                    }
-                                ],
-                                "view_useragent": "Chrome 90.0.4430 / Windows 10",
-                                "horizontal_position": true,
-                                "complete": true,
-                                "verify_otp_ipaddress": "54.247.173.178",
-                                "verify_otp_date": "11/05/2021 08:46:43 UTC",
-                                "position": "65, 100, 30, 250",
-                                "req_otp_ipaddress": "54.247.173.178",
-                                "verify_otp_useragent": "Chrome 90.0.4430 / Windows 10",
-                                "sign_ipaddress": "54.247.173.178",
-                                "req_otp_date": "11/05/2021 08:46:29 UTC"
-                            }
-                        },
-                        "filename": "Sample_Document.pdf",
-                        "ext": ".pdf",
-                        "sendersms": "MySender",
-                        "mime": "application/pdf",
-                        "partner": "Sample CORP.",
-                        "current_signer": 0,
-                        "complete_date": "11/05/2021 08:46:45 UTC",
-                        "document": "88912a36d6844607947331ffa90d2aed",
-                        "size": 31683
-                    }
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status id
+                  details:
+                    type: object
+                    properties: {}
+                    description: JSON object with information associated to the signature
+              example:
+                status: 200 OK
+                details:
+                  status: done
+                  upload_date: 11/05/2021 08:45:56 UTC
+                  enableotp: true
+                  enablehardware: false
+                  returnmethod: api
+                  signaturetext: Signature Test
+                  graphometric: true
+                  signers:
+                    0:
+                      view_date: 11/05/2021 08:46:06 UTC
+                      sign_date: 11/05/2021 08:46:45 UTC
+                      sign_useragent: Chrome 90.0.4430 / Windows 10
+                      name: First Signer
+                      req_otp_useragent: Chrome 90.0.4430 / Windows 10
+                      view_from_mobile: false
+                      mobile: +34688400127
+                      sms: 83ba58887fc32f2952de8d0cd5008907b6348aec
+                      view_ipaddress: 54.247.173.178
+                      page: 0
+                      documents:
+                      - upload_date: 11/05/2021 08:46:25 UTC
+                        upload_ipaddress: 54.247.173.178
+                        hash: 94c4b55d2767b21002c534972ad05db8af33b329ca2e9b0971c4d71c2c23781a
+                        format: image
+                        tag: Sample IDCard Image
+                        file: e94e09023d3242aba458b2418799115a
+                        upload_useragent: Chrome 90.0.4430 / Windows 10
+                      view_useragent: Chrome 90.0.4430 / Windows 10
+                      horizontal_position: true
+                      complete: true
+                      verify_otp_ipaddress: 54.247.173.178
+                      verify_otp_date: 11/05/2021 08:46:43 UTC
+                      position: 65, 100, 30, 250
+                      req_otp_ipaddress: 54.247.173.178
+                      verify_otp_useragent: Chrome 90.0.4430 / Windows 10
+                      sign_ipaddress: 54.247.173.178
+                      req_otp_date: 11/05/2021 08:46:29 UTC
+                  filename: Sample_Document.pdf
+                  ext: .pdf
+                  sendersms: MySender
+                  mime: application/pdf
+                  partner: Sample CORP.
+                  current_signer: 0
+                  complete_date: 11/05/2021 08:46:45 UTC
+                  document: 88912a36d6844607947331ffa90d2aed
+                  size: 31683
         404:
           description: Job ID not found
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          content:
             application/json:
-                {
-                    "status": "404 Not Found",
-                    "details": "Job ID not found!"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 404 Not Found
+                details: Job ID not found!
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl -i -X GET \
-                    https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df
-        - lang: 'JavaScript'
-          source: |
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+      - lang: curl
+        source: |
+          curl -i -X GET \
+            https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+      - lang: JavaScript
+        source: |
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'Python'
-          source: |
-                  import requests
+          const data = await resp.text();
+          console.log(data);
+      - lang: Python
+        source: |
+          import requests
 
-                  id = "YOUR_id_PARAMETER"
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+          id = "YOUR_id_PARAMETER"
+          url = "https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
 
-                  response = requests.get(url)
+          response = requests.get(url)
 
-                  data = response.json()
-                  print(data)
-        - lang: 'Node.js'
-          source: |
-                  const fetch = require('node-fetch');
+          data = response.json()
+          print(data)
+      - lang: Node.js
+        source: |
+          const fetch = require('node-fetch');
 
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'C#'
-          source: |
-                  using System;
-                  using System.Net.Http;
-                  using System.Threading.Tasks;
+          const data = await resp.text();
+          console.log(data);
+      - lang: C#
+        source: |
+          using System;
+          using System.Net.Http;
+          using System.Threading.Tasks;
 
-                  public class Program
-                  {
-                    public static async Task Main(string[] args)
-                    {
-                      using (var client = new HttpClient())
-                      {
-                        var Id = "YOUR_id_PARAMETER";
-                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
-                        var response = await request.Content.ReadAsStringAsync();
+          public class Program
+          {
+            public static async Task Main(string[] args)
+            {
+              using (var client = new HttpClient())
+              {
+                var Id = "YOUR_id_PARAMETER";
+                var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                var response = await request.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(response);
-                      }
-                    }
-                  }
-
-#############
+                Console.WriteLine(response);
+              }
+            }
+          }
     delete:
-      summary: DELETE DATA
       tags:
-        - OTP API
+      - OTP API
+      summary: DELETE DATA
       description: Deletes all data associated to a signature process.
-      produces:
-        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        description: The signature request id.        
+      - name: id
+        in: path
+        description: The signature request id.
         required: true
+        schema:
+          type: string
       responses:
         205:
           description: Data deleted successfully
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: "Successful response status"
-              details:
-                type: string
-                description: "Successful response message"
-          examples:
+          content:
             application/json:
-                {
-                    "status": "205 Reset Content",
-                    "details": "Data deleted"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Successful response status
+                  details:
+                    type: string
+                    description: Successful response message
+              example:
+                status: 205 Reset Content
+                details: Data deleted
         404:
           description: Job ID not found
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          content:
             application/json:
-                {
-                    "status": "404 Not Found",
-                    "details": "Job ID not found!"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 404 Not Found
+                details: Job ID not found!
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl -i -X DELETE \
-                    https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df
-        - lang: 'JavaScript'
-          source: |
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'DELETE'}
-                  );
+      - lang: curl
+        source: |
+          curl -i -X DELETE \
+            https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+      - lang: JavaScript
+        source: |
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'DELETE'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'Python'
-          source: |
-                  import requests
+          const data = await resp.text();
+          console.log(data);
+      - lang: Python
+        source: |
+          import requests
 
-                  id = "YOUR_id_PARAMETER"
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+          id = "YOUR_id_PARAMETER"
+          url = "https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
 
-                  response = requests.delete(url)
+          response = requests.delete(url)
 
-                  data = response.json()
-                  print(data)
-        - lang: 'Node.js'
-          source: |
-                  const fetch = require('node-fetch');
+          data = response.json()
+          print(data)
+      - lang: Node.js
+        source: |
+          const fetch = require('node-fetch');
 
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'DELETE'}
-                  );
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'DELETE'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'C#'
-          source: |
-                  using System;
-                  using System.Net.Http;
-                  using System.Threading.Tasks;
+          const data = await resp.text();
+          console.log(data);
+      - lang: C#
+        source: |
+          using System;
+          using System.Net.Http;
+          using System.Threading.Tasks;
 
-                  public class Program
-                  {
-                    public static async Task Main(string[] args)
-                    {
-                      using (var client = new HttpClient())
-                      {
-                        var Id = "YOUR_id_PARAMETER";
-                        var request = await client.DeleteAsync("https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
-                        var response = await request.Content.ReadAsStringAsync();
+          public class Program
+          {
+            public static async Task Main(string[] args)
+            {
+              using (var client = new HttpClient())
+              {
+                var Id = "YOUR_id_PARAMETER";
+                var request = await client.DeleteAsync("https://otponeshot.demo.bit4id.org/api/v1/sign/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                var response = await request.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(response);
-                      }
-                    }
-                  }
-  #############
+                Console.WriteLine(response);
+              }
+            }
+          }
   /api/v1/retrieve/{id}:
-    get: 
-      summary: RETRIEVE DOCUMENT
+    get:
       tags:
-        - OTP API
+      - OTP API
+      summary: RETRIEVE DOCUMENT
       description: Retrieves the signed document.
-      produces:
-        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        description: The signature request id.        
+      - name: id
+        in: path
+        description: The signature request id.
         required: true
+        schema:
+          type: string
       responses:
         200:
           description: Successful Response
-          examples:
+          content:
             text/plain:
-                " %PDF-1.7\n
-                  %����\n
-                  1 0 obj\n
-                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
-                  endobj\n\n
-
-                  2 0 obj\n
-                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
-                  endobj\n\n
-
-                  3 0 obj\n
-                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
-                  endobj\n
-                  (...)\n
-                "
+              example: " %PDF-1.7\n %����\n 1 0 obj\n <</Type/Catalog/Pages 2 0 R/Lang(es-ES)\
+                \ /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences\
+                \ 27 0 R>>\n endobj\n\n\n2 0 obj\n <</Type/Pages/Count 1/Kids[ 3 0\
+                \ R] >>\n endobj\n\n\n3 0 obj\n <</Type/Page/Parent 2 0 R/Resources<</Font<</F1\
+                \ 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI]\
+                \ >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents\
+                \ 0>>\n endobj\n (...)\n "
         404:
           description: Invalid job ID
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          content:
             application/json:
-                {
-                    "status": "404 Not Found",
-                    "details": "Invalid job id"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 404 Not Found
+                details: Invalid job id
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl -i -X GET \
-                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df
-        - lang: 'JavaScript'
-          source: |
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+      - lang: curl
+        source: |
+          curl -i -X GET \
+            https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+      - lang: JavaScript
+        source: |
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'Python'
-          source: |
-                  import requests
+          const data = await resp.text();
+          console.log(data);
+      - lang: Python
+        source: |
+          import requests
 
-                  id = "YOUR_id_PARAMETER"
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+          id = "YOUR_id_PARAMETER"
+          url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
 
-                  response = requests.get(url)
+          response = requests.get(url)
 
-                  data = response.json()
-                  print(data)
-        - lang: 'Node.js'
-          source: |
-                  const fetch = require('node-fetch');
+          data = response.json()
+          print(data)
+      - lang: Node.js
+        source: |
+          const fetch = require('node-fetch');
 
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'C#'
-          source: |
-                  using System;
-                  using System.Net.Http;
-                  using System.Threading.Tasks;
+          const data = await resp.text();
+          console.log(data);
+      - lang: C#
+        source: |
+          using System;
+          using System.Net.Http;
+          using System.Threading.Tasks;
 
-                  public class Program
-                  {
-                    public static async Task Main(string[] args)
-                    {
-                      using (var client = new HttpClient())
-                      {
-                        var Id = "YOUR_id_PARAMETER";
-                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
-                        var response = await request.Content.ReadAsStringAsync();
+          public class Program
+          {
+            public static async Task Main(string[] args)
+            {
+              using (var client = new HttpClient())
+              {
+                var Id = "YOUR_id_PARAMETER";
+                var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                var response = await request.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(response);
-                      }
-                    }
-                  }
-  #############
+                Console.WriteLine(response);
+              }
+            }
+          }
   /api/v1/retrieve/{id}/evidences:
-    get: 
-      summary: RETRIEVE EVIDENCES
+    get:
       tags:
-        - OTP API
+      - OTP API
+      summary: RETRIEVE EVIDENCES
       description: Retrieves the document of evidences associated to a signature.
-      produces:
-        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        description: The signature request id.        
+      - name: id
+        in: path
+        description: The signature request id.
         required: true
+        schema:
+          type: string
       responses:
         200:
           description: Successful Response
-          examples:
+          content:
             text/plain:
-                " %PDF-1.7\n
-                  %����\n
-                  1 0 obj\n
-                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
-                  endobj\n\n
-
-                  2 0 obj\n
-                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
-                  endobj\n\n
-
-                  3 0 obj\n
-                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
-                  endobj\n
-                  (...)\n
-                "
+              example: " %PDF-1.7\n %����\n 1 0 obj\n <</Type/Catalog/Pages 2 0 R/Lang(es-ES)\
+                \ /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences\
+                \ 27 0 R>>\n endobj\n\n\n2 0 obj\n <</Type/Pages/Count 1/Kids[ 3 0\
+                \ R] >>\n endobj\n\n\n3 0 obj\n <</Type/Page/Parent 2 0 R/Resources<</Font<</F1\
+                \ 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI]\
+                \ >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents\
+                \ 0>>\n endobj\n (...)\n "
         404:
           description: Job ID not found
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          content:
             application/json:
-                {
-                    "status": "404 Not Found",
-                    "details": "Invalid job id"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 404 Not Found
+                details: Invalid job id
         412:
           description: Incomplete signature
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          content:
             application/json:
-                {
-                    "status": "412 Precondition Failed",
-                    "details": "Incomplete signature"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 412 Precondition Failed
+                details: Incomplete signature
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl -i -X GET \
-                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences
-        - lang: 'JavaScript'
-          source: |
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences`,
-                    {method: 'GET'}
-                  );
+      - lang: curl
+        source: |
+          curl -i -X GET \
+            https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences
+      - lang: JavaScript
+        source: |
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'Python'
-          source: |
-                  import requests
+          const data = await resp.text();
+          console.log(data);
+      - lang: Python
+        source: |
+          import requests
 
-                  id = "YOUR_id_PARAMETER"
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences"
+          id = "YOUR_id_PARAMETER"
+          url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences"
 
-                  response = requests.get(url)
+          response = requests.get(url)
 
-                  data = response.json()
-                  print(data)
-        - lang: 'Node.js'
-          source: |
-                  const fetch = require('node-fetch');
+          data = response.json()
+          print(data)
+      - lang: Node.js
+        source: |
+          const fetch = require('node-fetch');
 
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences`,
-                    {method: 'GET'}
-                  );
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'C#'
-          source: |
-                  using System;
-                  using System.Net.Http;
-                  using System.Threading.Tasks;
+          const data = await resp.text();
+          console.log(data);
+      - lang: C#
+        source: |
+          using System;
+          using System.Net.Http;
+          using System.Threading.Tasks;
 
-                  public class Program
-                  {
-                    public static async Task Main(string[] args)
-                    {
-                      using (var client = new HttpClient())
-                      {
-                        var Id = "YOUR_id_PARAMETER";
-                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences");
-                        var response = await request.Content.ReadAsStringAsync();
+          public class Program
+          {
+            public static async Task Main(string[] args)
+            {
+              using (var client = new HttpClient())
+              {
+                var Id = "YOUR_id_PARAMETER";
+                var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/ce5b1044-62d8-4126-a8e0-f499ecdef3df/evidences");
+                var response = await request.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(response);
-                      }
-                    }
-                  }
-
-  #############
+                Console.WriteLine(response);
+              }
+            }
+          }
   /api/v1/retrieve/additionals/{id}:
-    get: 
-      summary: RETRIEVE ADDITIONALS
+    get:
       tags:
-        - OTP API
-      description: Returns a list of all associated documents uploaded in the signature process.
-      produces:
-        - application/json
+      - OTP API
+      summary: RETRIEVE ADDITIONALS
+      description: Returns a list of all associated documents uploaded in the signature
+        process.
       parameters:
-      - in: path
-        name: id
-        type: string
-        description: The signature request id.        
+      - name: id
+        in: path
+        description: The signature request id.
         required: true
+        schema:
+          type: string
       responses:
-# AGREGAR RESPONSE 200 OK
         404:
           description: Additional documents not found
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          content:
             application/json:
-                {
-                    "status": "404 Not Found",
-                    "details": "No additional documents found"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 404 Not Found
+                details: No additional documents found
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl -i -X GET \
-                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df
-        - lang: 'JavaScript'
-          source: |
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+      - lang: curl
+        source: |
+          curl -i -X GET \
+            https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+      - lang: JavaScript
+        source: |
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'Python'
-          source: |
-                  import requests
+          const data = await resp.text();
+          console.log(data);
+      - lang: Python
+        source: |
+          import requests
 
-                  id = "YOUR_id_PARAMETER"
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+          id = "YOUR_id_PARAMETER"
+          url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
 
-                  response = requests.get(url)
+          response = requests.get(url)
 
-                  data = response.json()
-                  print(data)
-        - lang: 'Node.js'
-          source: |
-                  const fetch = require('node-fetch');
+          data = response.json()
+          print(data)
+      - lang: Node.js
+        source: |
+          const fetch = require('node-fetch');
 
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'C#'
-          source: |
-                  using System;
-                  using System.Net.Http;
-                  using System.Threading.Tasks;
+          const data = await resp.text();
+          console.log(data);
+      - lang: C#
+        source: |
+          using System;
+          using System.Net.Http;
+          using System.Threading.Tasks;
 
-                  public class Program
-                  {
-                    public static async Task Main(string[] args)
-                    {
-                      using (var client = new HttpClient())
-                      {
-                        var Id = "YOUR_id_PARAMETER";
-                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
-                        var response = await request.Content.ReadAsStringAsync();
+          public class Program
+          {
+            public static async Task Main(string[] args)
+            {
+              using (var client = new HttpClient())
+              {
+                var Id = "YOUR_id_PARAMETER";
+                var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/additionals/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                var response = await request.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(response);
-                      }
-                    }
-                  }
-  #############
+                Console.WriteLine(response);
+              }
+            }
+          }
   /api/v1/retrieve/additional/{id}:
-    get: 
-      summary: RETRIEVE ADDITIONAL DOCUMENT
+    get:
       tags:
-        - OTP API
+      - OTP API
+      summary: RETRIEVE ADDITIONAL DOCUMENT
       description: Retrieves a specific additional file uploaded for signature.
-      produces:
-        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        description: The signature request id.        
+      - name: id
+        in: path
+        description: The signature request id.
         required: true
+        schema:
+          type: string
       responses:
         200:
           description: Successful Response
-          examples:
+          content:
             text/plain:
-                " %PDF-1.7\n
-                  %����\n
-                  1 0 obj\n
-                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
-                  endobj\n\n
-
-                  2 0 obj\n
-                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
-                  endobj\n\n
-
-                  3 0 obj\n
-                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
-                  endobj\n
-                  (...)\n
-                "
+              example: " %PDF-1.7\n %����\n 1 0 obj\n <</Type/Catalog/Pages 2 0 R/Lang(es-ES)\
+                \ /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences\
+                \ 27 0 R>>\n endobj\n\n\n2 0 obj\n <</Type/Pages/Count 1/Kids[ 3 0\
+                \ R] >>\n endobj\n\n\n3 0 obj\n <</Type/Page/Parent 2 0 R/Resources<</Font<</F1\
+                \ 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI]\
+                \ >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents\
+                \ 0>>\n endobj\n (...)\n "
         404:
           description: Job ID not found | Additional document not found
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                description: The response status code
-              details:
-                type: string
-                description: The response status message 
-          examples:
+          content:
             application/json:
-                {
-                    "status": "404 Not Found",
-                    "details": "Invalid job id"
-                }
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: The response status code
+                  details:
+                    type: string
+                    description: The response status message
+              example:
+                status: 404 Not Found
+                details: Invalid job id
       x-codeSamples:
-        - lang: 'curl'
-          source: |
-                  curl -i -X GET \
-                    https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df
-        - lang: 'JavaScript'
-          source: |
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+      - lang: curl
+        source: |
+          curl -i -X GET \
+            https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df
+      - lang: JavaScript
+        source: |
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'Python'
-          source: |
-                  import requests
+          const data = await resp.text();
+          console.log(data);
+      - lang: Python
+        source: |
+          import requests
 
-                  id = "YOUR_id_PARAMETER"
-                  url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
+          id = "YOUR_id_PARAMETER"
+          url = "https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df"
 
-                  response = requests.get(url)
+          response = requests.get(url)
 
-                  data = response.json()
-                  print(data)
-        - lang: 'Node.js'
-          source: |
-                  const fetch = require('node-fetch');
+          data = response.json()
+          print(data)
+      - lang: Node.js
+        source: |
+          const fetch = require('node-fetch');
 
-                  const id = 'YOUR_id_PARAMETER';
-                  const resp = await fetch(
-                    `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
-                    {method: 'GET'}
-                  );
+          const id = 'YOUR_id_PARAMETER';
+          const resp = await fetch(
+            `https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df`,
+            {method: 'GET'}
+          );
 
-                  const data = await resp.text();
-                  console.log(data);
-        - lang: 'C#'
-          source: |
-                  using System;
-                  using System.Net.Http;
-                  using System.Threading.Tasks;
+          const data = await resp.text();
+          console.log(data);
+      - lang: C#
+        source: |-
+          using System;
+          using System.Net.Http;
+          using System.Threading.Tasks;
 
-                  public class Program
-                  {
-                    public static async Task Main(string[] args)
-                    {
-                      using (var client = new HttpClient())
-                      {
-                        var Id = "YOUR_id_PARAMETER";
-                        var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
-                        var response = await request.Content.ReadAsStringAsync();
+          public class Program
+          {
+            public static async Task Main(string[] args)
+            {
+              using (var client = new HttpClient())
+              {
+                var Id = "YOUR_id_PARAMETER";
+                var request = await client.GetAsync("https://otponeshot.demo.bit4id.org/api/v1/retrieve/additional/ce5b1044-62d8-4126-a8e0-f499ecdef3df");
+                var response = await request.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(response);
-                      }
-                    }
-                  }
+                Console.WriteLine(response);
+              }
+            }
+          }
+components: {}
+x-tagGroups:
+- name: API Reference
+  tags:
+  - OTP API
