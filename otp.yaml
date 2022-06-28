@@ -147,7 +147,7 @@ paths:
                     color: #3b3b3b;''><b>⚠ File type in base64 is not accepted</a></b></blockquote>
                   format: binary
                 data:
-                  type: string
+                  type: object
                   description: JSON string object containing signature parameters. One JSON object for each signer is needed.
                   properties:
                     name:
