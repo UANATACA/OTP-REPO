@@ -176,6 +176,9 @@ paths:
                     horizontal_position:
                       type: boolean
                       description: Graphical signature position orientation
+                      enum: 
+                        - true
+                        - false
                     page:
                       type: string
                       description: Document page where the signature will be placed. First page starts at 0 value.
