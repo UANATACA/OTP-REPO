@@ -12,7 +12,6 @@ servers:
 tags:
 - name: OTP API
   description: '
-    <html>
 
     A digital signature request contains user identification data and associated documents to be signed.</br>
       <table> 
@@ -20,7 +19,7 @@ tags:
           <th>Method</th><th>Endpoint</th><th>Action</th> 
         </tr> 
         <tr>
-          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1hello/get''>/hello</a></td><td>Checks for server UP status</td> 
+          <td>GET</td><td>[/hello](#tag/OTP-API/paths/~1api~1v1~1hello/get)</td><td>Checks for server UP status</td> 
         </tr> 
         <tr> 
           <td>POST</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1sign/post''>/sign</a></td><td>Create a signature process</td> 
@@ -44,7 +43,7 @@ tags:
           <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1additional~1{id}/get''>/retrieve/additional/{id}</a></td><td>Retrieve an additional document through his id</td> 
         </tr> 
       </table>
-    </html>
+
     '
 
 paths:
