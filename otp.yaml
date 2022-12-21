@@ -23,25 +23,25 @@ tags:
           <td>GET</td><td>[/hello](#tag/OTP-API/paths/~1api~1v1~1hello/get)</td><td>Checks for server UP status</td> 
         </tr> 
         <tr> 
-          <td>POST</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1sign/post''>/sign</a></td><td>Create a signature process</td> 
+          <td>POST</td><td>[/sign](#tag/OTP-API/paths/~1api~1v1~1sign/post)</td><td>Create a signature process</td> 
         </tr> 
         <tr> 
-          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1sign~1{id}/get''>/sign/{id}</a></td><td>Check information about signature process status</td> 
+          <td>GET</td><td>[/status/{id}](#tag/OTP-API/paths/~1api~1v1~1sign~1{id}/get)</td><td>Check information about signature process status</td> 
         </tr> 
         <tr> 
-          <td>DEL</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1sign~1{id}/delete''>/sign/{id}</a></td><td>Delete information relative to a process</td> 
+          <td>DEL</td><td>[/status/{id}](#tag/OTP-API/paths/~1api~1v1~1sign~1{id}/delete)</td><td>Delete information relative to a process</td> 
         </tr>
         <tr> 
-          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1{id}/get''>/retrieve/{id}</a></td><td>Retrieve the signed file through the id of the process</td> 
+          <td>GET</td><td>[/retrieve/{id}](#tag/OTP-API/paths/~1api~1v1~1retrieve~1{id}/get)</td><td>Retrieve the signed file through the id of the process</td> 
         </tr>
         <tr> 
-          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1{id}~1evidences/get''>/retrieve/{id}/evidences</a></td><td>Retrieve the evidences document of the process</td> 
+          <td>GET</td><td>[/retrieve/{id}/evidences](#tag/OTP-API/paths/~1api~1v1~1retrieve~1{id}~1evidences/get)</td><td>Retrieve the evidences document of the process</td> 
         </tr>
         <tr> 
-          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1additionals~1{id}/get''>/retrieve/additionals/{id}</a></td><td>Retrieve the list of additional documents loaded in the process</td> 
+          <td>GET</td><td>[/retrieve/additionals/{id}](#tag/OTP-API/paths/~1api~1v1~1retrieve~1additionals~1{id}/get)</td><td>Retrieve the list of additional documents loaded in the process</td> 
         </tr>
         <tr> 
-          <td>GET</td><td><a href=''#tag/OTP-API/paths/~1api~1v1~1retrieve~1additional~1{id}/get''>/retrieve/additional/{id}</a></td><td>Retrieve an additional document through his id</td> 
+          <td>GET</td><td>[/retrieve/additional/{id}/{additional}](#tag/OTP-API/paths/~1api~1v1~1retrieve~1additional~1{id}/get)</td><td>Retrieve an additional document through his id</td> 
         </tr> 
       </table>
 
@@ -54,6 +54,7 @@ paths:
       - OTP API
       summary: HELLO
       description: Returns server availability status.
+      operationId: hello
       responses:
         200:
           description: OTP Server is UP
