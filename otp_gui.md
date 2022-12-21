@@ -13,7 +13,7 @@ For the execution of signature requests, all the data has to be sent along the c
 OTP Signature generates an audit trail evidence report which reflects every step performed with his belonging information. This audit trail will be obtanaible retrieving the document through an API call or scanning a QR code, this code is directly linked to the evidences and it can be found into the signed document.
 </div>
 
-![img](https://github.com/UANATACA/OTP-REPO/raw/main/img/otp.svg)
+![img](https://github.com/UANATACA/OTP-REPO/raw/main/img/otp.png)
 
 
 # Test environment
